@@ -17,11 +17,13 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "concurrently": "^6.2.0"
   },
   "scripts": {
-    "dev": "nodemon server.js",
+    "server": "nodemon server.js",
     "start": "node server.js",
-    "build": "yarn build"
+    "client": "cd client && yarn start",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   }
 }
