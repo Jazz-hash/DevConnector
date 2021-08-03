@@ -36,6 +36,7 @@ export default function (state = initialState, action) {
         repos: [],
         loading: false,
       };
+
     default:
       return state;
   }

@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require("../../middlewares/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 const { check, validationResult } = require("express-validator");
 const request = require("request");
 const config = require("config");
@@ -131,7 +132,9 @@ router.get("/user/:user_id", async (req, res) => {
       user: req.params.user_id,
     }).populate("user", ["name", "avatar"]);
 
-    if (!profile) res.status(400).json({ msg: "Profile not found" });
+    if (!profile) {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
 
     res.send(profile);
   } catch (err) {
@@ -147,8 +150,8 @@ router.get("/user/:user_id", async (req, res) => {
 // @access   Private
 router.delete("/", auth, async (req, res) => {
   try {
-    // @todo - remove user posts
-
+    // Remove user posts
+    await Post.deleteMany({ user: req.user.id });
     //Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
@@ -176,7 +179,7 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     const { title, company, location, from, to, current, description } =
       req.body;
@@ -235,7 +238,7 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     const { school, degree, fieldofstudy, from, to, current, description } =
       req.body;
@@ -303,7 +306,7 @@ router.get("/github/:username", (req, res) => {
     request(options, (error, response, body) => {
       if (error) console.error(error);
       if (response.statusCode != 200) {
-        res.status(404).json({ msg: "No Github Profile found" });
+        return res.status(404).json({ msg: "No Github Profile found" });
       }
 
       res.json(JSON.parse(body));
