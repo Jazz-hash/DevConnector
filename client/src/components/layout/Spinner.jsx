@@ -1,5 +1,5 @@
 import spinner from "./spinner.svg";
-export default () => (
+const Spinner = () => (
   <>
     <img
       src={spinner}
@@ -8,3 +8,5 @@ export default () => (
     />
   </>
 );
+
+export default Spinner;
