@@ -1,0 +1,7 @@
+{
+    "mongoURI": "mongodb+srv://jazz:Mpower123@cluster0.bkhcs.mongodb.net/test?retryWrites=true&w=majority",
+
+    "JWTsecretToken": "iambatman",
+    "githubClientId" : "870144e1e3e0c64700b8",
+    "githubClientSecret": "464241a7cca2c248a1a4f98fc2af64737d1dba0e"
+}
